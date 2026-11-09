@@ -1,0 +1,1167 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>到岸成本台</title><style>
+:root{font:16px system-ui,-apple-system,"PingFang SC",sans-serif;color:#22344e;background:#eef3f8}*{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1280px;margin:auto;padding:30px}header{padding-top:44px}h1{font-size:40px;margin:10px 0;letter-spacing:-1px;overflow-wrap:anywhere}header p{color:#5a6d84;max-width:960px;line-height:1.8}.eyebrow{font-size:12px;letter-spacing:2px;color:#4f6b91;font-weight:700}main{padding-top:0;display:grid;grid-template-columns:470px minmax(0,1fr);gap:22px}.panel{border:1px solid #d9e3ee;background:white;padding:24px;border-radius:18px;min-width:0}.input{align-self:start}h2{font-size:22px;margin:0 0 14px;overflow-wrap:anywhere}h3{font-size:17px;margin:24px 0 8px;overflow-wrap:anywhere}h4{font-size:14px;margin:16px 0 6px;color:#4f6b91;overflow-wrap:anywhere}label{font-size:14px;font-weight:650;display:block;margin:13px 0 6px}input[type=text],select{width:100%;min-width:0;font:inherit;font-size:14px;padding:8px 9px;border:1px solid #aebfd4;border-radius:8px;color:inherit;background:#fcfdff}
+.item{border:1px solid #e2e9f1;border-radius:12px;padding:10px 12px 6px;margin:10px 0;background:#fafcfe}.item-head{display:flex;align-items:center;gap:8px}.item-head .idx{flex:0 0 auto;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#e8eef7;color:#3b5b86;font-size:12px;font-weight:700}.item-head input{flex:1 1 auto;min-width:0}.item-head .mini{flex:0 0 auto}.item-head input.amount{flex:0 1 92px;min-width:0;max-width:92px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 8px}.grid3 .f,.grid2 .f{margin:8px 0 4px}.grid3 .f span,.grid2 .f span{font-size:12px;color:#61738a;font-weight:600;display:block;margin-bottom:3px}.grid3 .f input,.grid3 .f select,.grid2 .f input,.grid2 .f select{padding:6px 7px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 8px}
+.buttons{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0}button{font:inherit;font-size:14px;padding:9px 12px;border:1px solid #bac9dc;border-radius:8px;background:#eff4fb;color:#254d87;cursor:pointer;max-width:100%;white-space:normal}button.primary{background:#2d5f96;color:white;border-color:#2d5f96}button.mini{font-size:12px;padding:3px 8px}button:disabled{opacity:.4;cursor:not-allowed}.hint{font-size:13px;line-height:1.75;color:#61738a}.metric{font-size:22px;font-weight:600;margin:4px 0 6px;line-height:1.6;overflow-wrap:anywhere}.metric strong{font-size:33px;font-weight:750;font-variant-numeric:tabular-nums}.metric .sub{font-size:15px;color:#5a6d84;font-weight:600}.stats{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0}.stats>div{min-width:0}.stats strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.stats span{font-size:12px;color:#6a7c92;display:block;max-width:150px;line-height:1.4}.bad{color:#a23b28}.good{color:#2b6b4f}.tag{display:inline-block;font-size:12px;padding:3px 9px;border-radius:20px;background:#e8eef7;color:#3b5b86;margin-left:4px;vertical-align:middle}.tag.bad{background:#fbe4de;color:#a23b28}.tag.good{background:#e3f1ea;color:#2b6b4f}
+.bar{height:11px;background:#e8eef7;border-radius:6px;overflow:hidden;min-width:52px;max-width:100%}.bar i{display:block;height:100%;background:#4a7cb5}.bar.hot i{background:#a23b28}.bar.warm i{background:#c9821f}.barrow{display:grid;grid-template-columns:minmax(0,120px) minmax(36px,1fr) minmax(0,auto);gap:8px;align-items:center;margin:7px 0;font-size:13.5px;font-variant-numeric:tabular-nums}.barrow b{font-weight:650;min-width:0;overflow-wrap:anywhere}.barrow>span:last-child{text-align:right;min-width:0;overflow-wrap:anywhere}
+.advice{list-style:none;padding:0;margin:10px 0}.advice li{border-left:3px solid #6e90bd;padding:8px 0 8px 12px;margin:10px 0;font-size:13.5px;line-height:1.8;overflow-wrap:anywhere}.advice li.ok{border-color:#2b6b4f}.advice li.warn{border-color:#c9821f}.advice li.act{border-color:#a23b28;background:#fdf4f1;border-radius:0 8px 8px 0}.advice li.key{border-color:#2d5f96;background:#f4f8fd;border-radius:0 8px 8px 0}.advice li.info{border-color:#95a7bd}.warnlist{list-style:none;padding:0;margin:10px 0}.warnlist li{border-left:3px solid #95a7bd;padding:8px 0 8px 12px;margin:10px 0;font-size:13.5px;line-height:1.8;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}.tw{max-width:100%;overflow-x:auto}table.stack th:first-child,table.stack td:first-child{min-width:104px}table.fix{table-layout:fixed}.tw{max-width:100%;overflow-x:auto}@media(min-width:1001px){.tw>table{min-width:max-content}}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid #e4eaf1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;vertical-align:top}th{font-size:12px;color:#62748c;font-weight:650;overflow-wrap:normal;word-break:keep-all}td.num{text-align:right;white-space:nowrap}tr.cur{background:#eef6f0}tr.dim{color:#7c8b9d}.note{font-size:12.5px;color:#61738a;line-height:1.8;margin:8px 0}.model{margin-top:20px;border-top:1px solid #e4eaf1;padding-top:12px}.model summary{cursor:pointer;font-weight:650;font-size:14px;color:#2d5f96}.model p{font-size:13px;line-height:1.85;color:#4d6076;overflow-wrap:anywhere}#imports{display:none}#error{color:#a23b28;font-size:14px;line-height:1.8;overflow-wrap:anywhere}#error:not(:empty){background:#fdf1ee;border:1px solid #f0cfc6;border-radius:10px;padding:12px;margin-bottom:14px}#error:empty{display:none}#message,#savedNote{font-size:13px;color:#2b6b4f;line-height:1.8;overflow-wrap:anywhere}footer{color:#7b8ca0;font-size:12.5px;line-height:1.9}
+@media(max-width:1000px){header,main,footer{padding:18px}h1{font-size:28px}main{grid-template-columns:1fr}.panel{padding:18px}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.metric strong{font-size:26px}table.stack,table.stack tbody,table.stack tr,table.stack td{display:block;width:100%;max-width:100%;white-space:normal}table.stack thead{display:none}table.stack tr{border:1px solid #e0e8f0;border-radius:10px;padding:10px;margin:10px 0}table.stack td{border:0;padding:3px 0;font-size:13px;text-align:left;white-space:normal}table.stack td.num{text-align:left}table.stack td:before{content:attr(data-label) "：";color:#6a7c92;font-size:12px}}
+@media(max-width:620px){#fees .item-head{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:6px 8px}#fees .item-head .idx{grid-column:1;grid-row:1}#fees .item-head input:not(.amount){grid-column:2/4;grid-row:1}#fees .item-head input.amount{grid-column:2;grid-row:2;max-width:none;flex:none;width:100%}#fees .item-head .mini{grid-column:3;grid-row:2}}
+@media(max-width:345px){.grid3,.grid2{grid-template-columns:minmax(0,1fr)}}
+</style><header><div class="eyebrow">LANDED COST LEDGER · 进口到岸成本与税费对账</div><h1>关税涨了 30%，这批货到岸到底贵了多少？</h1><p>进口货物的成本不是「货值 × 税率」那么简单：<strong>运费和保险费也要计入完税价格</strong>，<strong>消费税是价内税</strong>（先把完税价格与关税还原成含税价再乘税率），<strong>增值税又按含了关税和消费税的价格来计征</strong>。到岸成本台按这条链条逐层算出：这批货到岸一共多少钱、税占了多大比例、每一行各交多少税、在这个卖价与毛利下最多能承受多高的货值、关税最多能涨到多少。默认样例是一批虚构的跨境小家电。</p></header><main>
+<section class="panel input" id="inputPanel"><h2>先填这批货</h2>
+<div id="rows"></div>
+<div class="buttons"><button type="button" id="addRow">添加一行货物</button><button type="button" id="demo" class="primary">载入虚构示例</button></div>
+<h4>内置场景（全部虚构，点一下换一整组输入）</h4>
+<div class="buttons" id="presets"></div>
+<div class="grid2">
+<label class="f"><span>币种（只用于显示）</span><input type="text" id="currency" aria-label="币种"></label>
+<label class="f"><span>汇率（人民币 / 1 外币）</span><input type="text" inputmode="decimal" id="rate" aria-label="汇率"></label>
+<label class="f"><span>国际运费（外币）</span><input type="text" inputmode="decimal" id="freight" aria-label="国际运费"></label>
+<label class="f"><span>保险口径</span><select id="insuranceMode" aria-label="保险口径"><option value="rate">按货值比例</option><option value="amount">固定金额（外币）</option></select></label>
+<label class="f"><span>保险费率（% 货值）</span><input type="text" inputmode="decimal" id="insuranceRate" aria-label="保险费率"></label>
+<label class="f"><span>保险金额（外币）</span><input type="text" inputmode="decimal" id="insuranceAmount" aria-label="保险金额"></label>
+</div>
+<h4>其他费用（本币，不进完税价格、不产生税额）</h4>
+<div id="fees"></div>
+<div class="buttons"><button type="button" id="addFee">添加一项费用</button></div>
+<div class="grid2">
+<label class="f"><span>目标毛利率（%）</span><input type="text" inputmode="decimal" id="margin" aria-label="目标毛利率"></label>
+<label class="f"><span>目标售价（本币，整批，留空则不反推）</span><input type="text" inputmode="decimal" id="targetPrice" aria-label="目标售价"></label>
+</div>
+<div class="hint">1–6 行货物；名称 ≤16 字符；数量 1–1,000,000 的整数；单价 0–1e9；关税率 0–300%、消费税率 0–99%、增值税率 0–100%（留空按 0 报错，请显式填写）。汇率 &gt; 0。全部计算只在本机浏览器里做，不上传、不联网，也<strong>不查税则、不查汇率</strong>。</div>
+<div class="buttons"><button type="button" id="save">保存到本机</button><button type="button" id="restore">恢复已保存</button><button type="button" id="backup">下载备份</button><button type="button" id="import">导入备份</button></div><input id="imports" type="file" accept=".json,application/json">
+<div id="savedNote"></div><div id="message" role="status"></div></section>
+<section class="panel"><div id="error" role="alert"></div><div id="result" aria-live="polite"></div>
+<div class="buttons" id="downloads"><button type="button" id="csv">导出明细 CSV</button><button type="button" id="md">导出结果说明 MD</button><button type="button" id="png" class="primary">下载结果卡 PNG</button><button type="button" id="json">下载 JSON 备份</button></div>
+<details class="model"><summary>算法与使用边界（每个数字的口径都在这里）</summary>
+<p><strong>完税价格</strong>：本页按「货值 + 国际运费 + 保险费」计算，并把运保费<strong>按货值比例分摊到每一行</strong>。这也是为什么一行货值高、另一行货值低时，两行的分摊金额不同、但分摊比例相同。运保费为 0 时完税价格就等于货值。</p>
+<p><strong>关税</strong>：完税价格 × 关税率。</p>
+<p><strong>消费税（价内税）</strong>：<code>(完税价格 + 关税) ÷ (1 − 消费税率) × 消费税率</code>。消费税是价内税，所以不能直接用「完税价格 × 税率」；消费税率必须小于 100%，否则这个倒算没有意义（本页会拒绝 100% 及以上）。</p>
+<p><strong>增值税</strong>：<code>(完税价格 + 关税 + 消费税) × 增值税率</code>。注意税基里包含了关税与消费税——所以「关税 10% + 增值税 13%」的实际税负是 <strong>24.3%</strong>，不是 23%；差的那 1.3 个百分点就是「关税自己也要交增值税」。</p>
+<p><strong>综合税负率</strong> = 税费 ÷ 到岸成本（完税价格）。它比三档税率直接相加要大，因为税会一层层滚；页面里的「口径对照」把这个差额单独列了出来。<strong>含税放大倍数</strong> = 1 + 综合税负率，意思是<strong>完税价格（或运保费）每多 1 元，总成本就要多这么多元</strong>。</p>
+<p><strong>反推</strong>：总成本对货值是<strong>一次（仿射）关系</strong>——运保费按货值比例分摊、三档税都以完税价格为基数线性计算——所以本页用「货值取 1 倍与 2 倍两次求值」定出直线，再解出「目标售价 × (1 − 毛利率) 允许的成本」对应的货值上限，并把解回代重算核对（页面上有残差）。「可承受的关税率上限」用同样的办法：成本对统一关税率也是一次关系。两个上限都只在「保持各行结构比例不变、运保费与其他费用不变」的前提下成立。</p>
+<p><strong>做不到的</strong>：不查税则、不做商品归类（HS 编码）、不联网查税率与汇率——税率全部由你填，本页只做算术；不处理从量税与复合计税（如按支、按升加征的定额税）、反倾销/保障措施税、出口退税与进项抵扣、免税额度与行邮税、跨境电商综合税的优惠口径；不处理特许权使用费、佣金、境内运输等是否计入完税价格的专门规定；不做申报口径的取整（真实申报对完税价格、汇率适用日、税额分位取整都有规定，本页中间量全精度计算、只在显示时四舍五入到分）；不支持一行一个币种、不支持分批到货。本页<strong>不给任何避税、低报或归类规避建议</strong>，只回答「在你填的税率与费用下，这批货的成本结构与定价空间是多少」。</p>
+<p>默认样例与 5 个内置场景<strong>全部是虚构示例</strong>，其中的税率只是演示用的整数，<strong>不代表任何真实税则、商品或政策</strong>。</p>
+</details></section></main><footer>到岸成本台 · V1.0.0 · 全部数字来自本页同一次计算；默认样例与内置场景均为虚构示例，税率由用户自填，不代表任何真实税则或政策 · AI 辅助开发 · 只做进口到岸成本与税费算术</footer>
+<script>/* 到岸成本台 · core.js
+ * 进口到岸成本与税费算术：按货值比例分摊运保费 → 完税价格 → 关税
+ * → 价内消费税倒算 → 增值税（按含消费税价格计征）→ 成本汇总
+ * → 综合税负率 / 含税放大倍数 → 最低售价 → 可承受货值上限与关税率上限（仿射两点精确反推）。
+ * 纯计算、无 DOM、无网络；浏览器挂 window.AppCore，Node 下 module.exports。
+ */
+(function (global) {
+  'use strict';
+
+  var LIMITS = {
+    MIN_ROWS: 1, MAX_ROWS: 6,
+    MAX_NAME: 16,
+    MAX_QTY: 1000000,
+    MAX_PRICE: 1e9,
+    MAX_RATE: 1e6,             // 汇率（人民币 / 外币）
+    MAX_DUTY: 300,             // 关税率 %
+    MAX_EXCISE: 99,            // 消费税率 %（必须 < 100，价内税倒算的分母）
+    MAX_VAT: 100,              // 增值税率 %
+    MAX_FREIGHT: 1e9,
+    MAX_INS_RATE: 100,         // 保险费率 %
+    MAX_FEE: 4,                // 其他费用最多几项
+    MAX_FEE_AMOUNT: 1e9,
+    MAX_MARGIN: 95,            // 目标毛利率 %
+    EPS: 1e-9
+  };
+
+  function err(msg) { var e = new Error(msg); e.userMessage = msg; return e; }
+
+  var NUM_RE = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
+
+  // ── 数值解析 ────────────────────────────────────────────────
+  function numStrict(v, label, min, max) {
+    var x;
+    if (typeof v === 'number') {
+      x = v;
+    } else {
+      var s = String(v === null || v === undefined ? '' : v).trim();
+      if (!s) throw err(label + '不能为空');
+      if (!NUM_RE.test(s)) throw err(label + '不是有效数字：' + s);
+      x = Number(s);
+    }
+    if (!isFinite(x)) throw err(label + '超出了可计算范围');
+    if (typeof min === 'number' && x < min) throw err(label + '不能小于 ' + min);
+    if (typeof max === 'number' && x > max) throw err(label + '不能大于 ' + max);
+    return x;
+  }
+
+  function intStrict(v, label, min, max) {
+    var x = numStrict(v, label, min, max);
+    if (Math.abs(x - Math.round(x)) > 1e-9) throw err(label + '必须是整数');
+    return Math.round(x);
+  }
+
+  function optNum(v, label, min, max) {
+    var s = String(v === null || v === undefined ? '' : v).trim();
+    if (!s) return null;
+    return numStrict(s, label, min, max);
+  }
+
+  // ── 格式化 ──────────────────────────────────────────────────
+  function fmt(x, d) {
+    if (typeof x !== 'number' || !isFinite(x)) return '—';
+    d = typeof d === 'number' ? d : 2;
+    if (x !== 0 && Math.abs(x) < Math.pow(10, -d) / 2) x = 0;
+    return x.toFixed(d);
+  }
+  function money(x) {
+    if (typeof x !== 'number' || !isFinite(x)) return '—';
+    var neg = x < 0; x = Math.abs(x);
+    var s = x.toFixed(2).split('.');
+    s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-' : '') + s[0] + '.' + s[1];
+  }
+  function money4(x) {
+    if (typeof x !== 'number' || !isFinite(x)) return '—';
+    var neg = x < 0; x = Math.abs(x);
+    var s = x.toFixed(4).split('.');
+    s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-' : '') + s[0] + '.' + s[1];
+  }
+  function pct(x, d) {
+    if (typeof x !== 'number' || !isFinite(x)) return '—';
+    return fmt(x, typeof d === 'number' ? d : 2) + '%';
+  }
+
+  // ── 内置场景（全部虚构，税率只是演示用整数） ────────────────
+  var PRESETS = [
+    {
+      key: 'appliance',
+      label: '跨境电商小家电（默认）',
+      note: '虚构示例：一批便携小家电，关税 10%，无消费税',
+      input: {
+        currency: 'USD', rate: '7.20', freight: '480',
+        insuranceMode: 'rate', insuranceRate: '0.3', insuranceAmount: '',
+        margin: '25', targetPrice: '120000',
+        rows: [{ name: '便携榨汁机', qty: '500', unitPrice: '12.50', dutyRate: '10', exciseRate: '0', vatRate: '13' }],
+        otherFees: [{ name: '报关与口岸费', amount: '800' }, { name: '国内运费', amount: '1200' }]
+      }
+    },
+    {
+      key: 'wine',
+      label: '进口葡萄酒（消费税）',
+      note: '虚构示例：消费税是从价价内税，会让税基滚起来',
+      input: {
+        currency: 'EUR', rate: '7.80', freight: '2600',
+        insuranceMode: 'rate', insuranceRate: '0.3', insuranceAmount: '',
+        margin: '35', targetPrice: '120000',
+        rows: [{ name: '干红葡萄酒 750ml', qty: '1200', unitPrice: '4.20', dutyRate: '14', exciseRate: '10', vatRate: '13' }],
+        otherFees: [{ name: '报关与口岸费', amount: '1500' }, { name: '国内运费与仓储', amount: '2600' }]
+      }
+    },
+    {
+      key: 'cosmetic',
+      label: '进口化妆品（高消费税）',
+      note: '虚构示例：消费税率越高，价内税倒算的放大越明显',
+      input: {
+        currency: 'JPY', rate: '0.048', freight: '38000',
+        insuranceMode: 'amount', insuranceAmount: '12000',
+        margin: '45', targetPrice: '380000',
+        rows: [{ name: '精华液 30ml', qty: '800', unitPrice: '3200', dutyRate: '5', exciseRate: '15', vatRate: '13' }],
+        otherFees: [{ name: '报关与口岸费', amount: '1200' }]
+      }
+    },
+    {
+      key: 'machine',
+      label: '进口机械设备（运保费高）',
+      note: '虚构示例：运保费占货值两成以上，也被征税',
+      input: {
+        currency: 'USD', rate: '7.20', freight: '26000',
+        insuranceMode: 'amount', insuranceAmount: '3200',
+        margin: '20', targetPrice: '1750000',
+        rows: [{ name: '数控雕刻机', qty: '4', unitPrice: '26000', dutyRate: '8', exciseRate: '0', vatRate: '13' }],
+        otherFees: [{ name: '报关与口岸费', amount: '3600' }, { name: '国内运输与吊装', amount: '9800' }]
+      }
+    },
+    {
+      key: 'material',
+      label: '零关税原材料（多行分摊）',
+      note: '虚构示例：两种原材料不同关税率，运保费按货值比例分摊',
+      input: {
+        currency: 'USD', rate: '7.20', freight: '1500',
+        insuranceMode: 'rate', insuranceRate: '0.5', insuranceAmount: '',
+        margin: '15', targetPrice: '130000',
+        rows: [
+          { name: '食品级树脂', qty: '3000', unitPrice: '2.10', dutyRate: '0', exciseRate: '0', vatRate: '13' },
+          { name: '色母粒', qty: '600', unitPrice: '6.80', dutyRate: '6.5', exciseRate: '0', vatRate: '13' }
+        ],
+        otherFees: [{ name: '报关与口岸费', amount: '600' }]
+      }
+    }
+  ];
+
+  function blankRow() {
+    return { name: '', qty: '1', unitPrice: '', dutyRate: '', exciseRate: '0', vatRate: '13' };
+  }
+  function blankInput() {
+    return {
+      currency: 'USD', rate: '', freight: '', insuranceMode: 'rate',
+      insuranceRate: '0.3', insuranceAmount: '', margin: '25', targetPrice: '',
+      rows: [blankRow()], otherFees: []
+    };
+  }
+  function clonePreset(key) {
+    var p = null;
+    for (var i = 0; i < PRESETS.length; i++) if (PRESETS[i].key === key) p = PRESETS[i];
+    if (!p) throw err('没有这个内置场景：' + key);
+    return JSON.parse(JSON.stringify(p.input));
+  }
+
+  // ── 校验 + 归一化 ───────────────────────────────────────────
+  function normalize(input) {
+    if (!input || typeof input !== 'object') throw err('输入不是一个对象');
+    var out = {};
+    out.currency = String(input.currency === null || input.currency === undefined ? '' : input.currency).trim().slice(0, 8) || '外币';
+    out.rate = numStrict(input.rate, '汇率', LIMITS.EPS, LIMITS.MAX_RATE);
+
+    var rows = Array.isArray(input.rows) ? input.rows : [];
+    if (rows.length < LIMITS.MIN_ROWS) throw err('至少要有一行货物');
+    if (rows.length > LIMITS.MAX_ROWS) throw err('货物最多 ' + LIMITS.MAX_ROWS + ' 行');
+    out.rows = rows.map(function (r, i) {
+      var n = i + 1;
+      var name = String(r && r.name !== null && r.name !== undefined ? r.name : '').trim();
+      if (!name) throw err('第 ' + n + ' 行的名称不能为空');
+      if (name.length > LIMITS.MAX_NAME) throw err('第 ' + n + ' 行的名称最多 ' + LIMITS.MAX_NAME + ' 个字符');
+      return {
+        name: name,
+        qty: intStrict(r.qty, '第 ' + n + ' 行的数量', 1, LIMITS.MAX_QTY),
+        unitPrice: numStrict(r.unitPrice, '第 ' + n + ' 行的单价', 0, LIMITS.MAX_PRICE),
+        dutyRate: numStrict(r.dutyRate, '第 ' + n + ' 行的关税率', 0, LIMITS.MAX_DUTY),
+        exciseRate: numStrict(r.exciseRate, '第 ' + n + ' 行的消费税率', 0, LIMITS.MAX_EXCISE),
+        vatRate: numStrict(r.vatRate, '第 ' + n + ' 行的增值税率', 0, LIMITS.MAX_VAT)
+      };
+    });
+
+    out.freight = numStrict(input.freight, '国际运费', 0, LIMITS.MAX_FREIGHT);
+    var mode = String(input.insuranceMode || 'rate');
+    if (mode !== 'rate' && mode !== 'amount') throw err('保险口径只能是「按货值比例」或「固定金额」');
+    out.insuranceMode = mode;
+    if (mode === 'rate') {
+      out.insuranceRate = numStrict(input.insuranceRate, '保险费率', 0, LIMITS.MAX_INS_RATE);
+      out.insuranceAmount = null;
+    } else {
+      out.insuranceAmount = numStrict(input.insuranceAmount, '保险金额', 0, LIMITS.MAX_FREIGHT);
+      out.insuranceRate = null;
+    }
+
+    var fees = Array.isArray(input.otherFees) ? input.otherFees : [];
+    if (fees.length > LIMITS.MAX_FEE) throw err('其他费用最多 ' + LIMITS.MAX_FEE + ' 项');
+    out.otherFees = fees.map(function (f, i) {
+      var n = i + 1;
+      var name = String(f && f.name ? f.name : '').trim();
+      if (!name) throw err('其他费用第 ' + n + ' 项的名称不能为空');
+      if (name.length > LIMITS.MAX_NAME) throw err('其他费用第 ' + n + ' 项的名称最多 ' + LIMITS.MAX_NAME + ' 个字符');
+      return { name: name, amount: numStrict(f.amount, '其他费用第 ' + n + ' 项的金额', 0, LIMITS.MAX_FEE_AMOUNT) };
+    });
+
+    out.margin = numStrict(input.margin, '目标毛利率', 0, LIMITS.MAX_MARGIN);
+    out.targetPrice = optNum(input.targetPrice, '目标售价', LIMITS.EPS, LIMITS.MAX_PRICE * LIMITS.MAX_RATE);
+
+    var G = 0;
+    out.rows.forEach(function (r) { G += r.qty * r.unitPrice; });
+    if (!(G > 0)) throw err('所有行的货值合计为 0（数量 × 单价），没有可以分摊运保费和计税的基数');
+    out.goodsForeign = G;
+    return out;
+  }
+
+  // ── 核心计算：货值缩放 s 倍时的全部结果 ─────────────────────
+  function computeAt(n, s) {
+    var rowsIn = n.rows;
+    var G = n.goodsForeign * s;
+    var F = n.freight;
+    var I = n.insuranceMode === 'rate' ? G * n.insuranceRate / 100 : n.insuranceAmount;
+    var ratio = (F + I) / G;                       // 运保费 / 货值（与缩放无关）
+
+    var rows = [];
+    var U = 0, D = 0, E = 0, V = 0, naive = 0, qty = 0, other = 0;
+    rowsIn.forEach(function (r) {
+      var g = r.qty * r.unitPrice * s;
+      var u = g * (1 + ratio);                     // 完税价格（外币）
+      var d = u * r.dutyRate / 100;
+      var e = (u + d) / (1 - r.exciseRate / 100) * r.exciseRate / 100;
+      var v = (u + d + e) * r.vatRate / 100;
+      var tax = d + e + v;
+      var naiveTax = u * (r.dutyRate + r.exciseRate + r.vatRate) / 100; // 「三档税率直接相加」的错算口径
+      U += u; D += d; E += e; V += v; naive += naiveTax; qty += r.qty;
+      rows.push({
+        name: r.name, qty: r.qty, unitPrice: r.unitPrice * s, dutyRate: r.dutyRate,
+        exciseRate: r.exciseRate, vatRate: r.vatRate,
+        goodsForeign: g, apportionedForeign: u - g, dutiableForeign: u,
+        dutyForeign: d, exciseForeign: e, vatForeign: v, taxForeign: tax,
+        dutiableLocal: u * n.rate, taxLocal: tax * n.rate,
+        totalLocal: (u + tax) * n.rate, unitLocal: (u + tax) * n.rate / r.qty,
+        burdenRate: u > 0 ? tax / u * 100 : 0,
+        amplifier: u > 0 ? (u + tax) / u : 1
+      });
+    });
+    n.otherFees.forEach(function (f) { other += f.amount; });
+
+    var taxForeign = D + E + V;
+    var landedLocal = U * n.rate;
+    var taxLocal = taxForeign * n.rate;
+    var totalLocal = landedLocal + taxLocal + other;
+    var burdenRate = U > 0 ? taxForeign / U * 100 : 0;
+
+    return {
+      s: s,
+      rows: rows,
+      totals: {
+        goodsForeign: G, freightForeign: F, insuranceForeign: I, apportionedForeign: F + I,
+        dutiableForeign: U, dutyForeign: D, exciseForeign: E, vatForeign: V,
+        taxForeign: taxForeign, taxLocal: taxLocal, landedLocal: landedLocal,
+        otherLocal: other, totalLocal: totalLocal, totalQty: qty,
+        goodsLocal: G * n.rate, freightLocal: F * n.rate, insuranceLocal: I * n.rate,
+        dutyLocal: D * n.rate, exciseLocal: E * n.rate, vatLocal: V * n.rate,
+        unitCostLocal: totalLocal / qty, unitDutiableLocal: U * n.rate / qty,
+        unitTaxLocal: taxLocal / qty
+      },
+      measures: {
+        burdenRate: burdenRate,                       // 综合税负率 %（税费 ÷ 到岸成本）
+        amplifier: 1 + burdenRate / 100,              // 运保费含税放大倍数
+        dutyShare: taxForeign > 0 ? D / taxForeign * 100 : 0,
+        exciseShare: taxForeign > 0 ? E / taxForeign * 100 : 0,
+        vatShare: taxForeign > 0 ? V / taxForeign * 100 : 0,
+        freightShare: totalLocal > 0 ? (F + I) * n.rate / totalLocal * 100 : 0,
+        naiveTaxLocal: naive * n.rate,
+        naiveUnderstateLocal: (taxForeign - naive) * n.rate
+      },
+      marginal: { freightPerUnitGainLocal: 1 + burdenRate / 100 }
+    };
+  }
+
+  // ── 主求解 ─────────────────────────────────────────────────
+  function solve(input) {
+    var n = normalize(input);
+    var base = computeAt(n, 1);
+    var t = base.totals, m = base.measures;
+
+    // 定价
+    var minPrice = t.totalLocal / (1 - n.margin / 100);
+    var pricing = {
+      margin: n.margin, minPriceLocal: minPrice, minUnitPriceLocal: minPrice / t.totalQty,
+      grossProfitLocal: minPrice - t.totalLocal, costLocal: t.totalLocal
+    };
+
+    // 反推：目标售价 → 可承受货值上限（成本对货值仿射，两点求值精确解）
+    var reverse = null;
+    if (n.targetPrice !== null) {
+      var limit = n.targetPrice * (1 - n.margin / 100);
+      var c1 = t.totalLocal, c2 = computeAt(n, 2).totals.totalLocal;
+      var a = c2 - c1, b = 2 * c1 - c2;            // C(s) = a·s + b
+      var sMax = a > 0 ? (limit - b) / a : (c1 <= limit ? Infinity : -Infinity);
+      var maxGoodsForeign = sMax * n.goodsForeign;
+      var meets = c1 <= limit + Math.max(1, limit) * LIMITS.EPS;
+      var residual = null, reason = '';
+      if (a <= 0) reason = '货值对成本的边际影响为 0（所有单价都是 0），无法反推货值上限';
+      else if (sMax < 0) reason = '即使货值为 0 也不达标：固定费用与运保费本身已超过这个售价允许的成本';
+      else if (!isFinite(maxGoodsForeign)) reason = '当前成本已低于售价允许的成本，货值上限不受此项约束';
+      if (a > 0 && sMax >= 0 && isFinite(sMax)) {
+        residual = computeAt(n, sMax).totals.totalLocal - limit;
+      }
+      reverse = {
+        targetPriceLocal: n.targetPrice, allowedCostLocal: limit, meets: meets,
+        scale: sMax, maxGoodsForeign: maxGoodsForeign,
+        maxGoodsLocal: maxGoodsForeign * n.rate,
+        headroomPct: (sMax - 1) * 100,
+        currentGoodsForeign: n.goodsForeign,
+        slope: a, intercept: b, residualLocal: residual, reason: reason,
+        perUnitMaxGoodsLocal: maxGoodsForeign * n.rate / t.totalQty
+      };
+    }
+
+    // 反推：目标售价 → 可承受的统一关税率上限（成本对关税率同样仿射）
+    var maxDuty = null;
+    if (n.targetPrice !== null) {
+      var limit2 = n.targetPrice * (1 - n.margin / 100);
+      var rowsZero = n.rows.map(function (r) { return { name: r.name, qty: r.qty, unitPrice: r.unitPrice, dutyRate: 0, exciseRate: r.exciseRate, vatRate: r.vatRate }; });
+      var rowsHundred = n.rows.map(function (r) { return { name: r.name, qty: r.qty, unitPrice: r.unitPrice, dutyRate: 100, exciseRate: r.exciseRate, vatRate: r.vatRate }; });
+      var c0 = computeAt({ rows: rowsZero, rate: n.rate, freight: n.freight, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign }, 1).totals.totalLocal;
+      var c100 = computeAt({ rows: rowsHundred, rate: n.rate, freight: n.freight, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign }, 1).totals.totalLocal;
+      var k = (c100 - c0) / 100;                   // 每 1 个百分点关税带来的成本增加
+      var tMax = k > 0 ? (limit2 - c0) / k : Infinity;
+      var capped = false, dutyReason = '';
+      if (!(k > 0)) dutyReason = '关税对成本没有影响（完税价格为 0）';
+      else if (tMax < 0) dutyReason = '即使关税为 0 也不达标：不含关税的成本已经超过这个售价允许的成本';
+      if (tMax > LIMITS.MAX_DUTY) { capped = true; tMax = LIMITS.MAX_DUTY; }
+      var dutyResidual = null;
+      if (k > 0 && tMax >= 0 && isFinite(tMax)) {
+        var rowsAt = n.rows.map(function (r) { return { name: r.name, qty: r.qty, unitPrice: r.unitPrice, dutyRate: tMax, exciseRate: r.exciseRate, vatRate: r.vatRate }; });
+        dutyResidual = computeAt({ rows: rowsAt, rate: n.rate, freight: n.freight, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign }, 1).totals.totalLocal - limit2;
+      }
+      maxDuty = {
+        available: k > 0, rate: k > 0 ? tMax : null, capped: capped, reason: dutyReason,
+        currentMaxDuty: Math.max.apply(null, n.rows.map(function (r) { return r.dutyRate; })),
+        perPointLocal: k, costAtZeroDutyLocal: c0, residualLocal: dutyResidual, allowedCostLocal: limit2
+      };
+    }
+
+    // 敏感性
+    function variant(patch, label, note) {
+      var rows = n.rows.map(function (r) { return { name: r.name, qty: r.qty, unitPrice: r.unitPrice, dutyRate: r.dutyRate, exciseRate: r.exciseRate, vatRate: r.vatRate }; });
+      var v = { rows: rows, rate: n.rate, freight: n.freight, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign };
+      if (patch.dutyAdd) rows.forEach(function (r) { r.dutyRate = Math.min(LIMITS.MAX_DUTY, r.dutyRate + patch.dutyAdd); });
+      if (patch.exciseAdd) {
+        var clamped = false;
+        rows.forEach(function (r) {
+          var want = r.exciseRate + patch.exciseAdd;
+          if (want > LIMITS.MAX_EXCISE) { want = LIMITS.MAX_EXCISE; clamped = true; }
+          r.exciseRate = want;
+        });
+        if (clamped) note = (note ? note + '；' : '') + '有行被截断到 ' + LIMITS.MAX_EXCISE + '%';
+      }
+      if (patch.rateMul) v.rate = n.rate * patch.rateMul;
+      if (patch.freightMul) v.freight = n.freight * patch.freightMul;
+      var r2 = computeAt(v, 1);
+      var total = r2.totals.totalLocal;
+      return {
+        label: label, note: note || '',
+        totalLocal: total, deltaLocal: total - t.totalLocal,
+        deltaPct: t.totalLocal > 0 ? (total - t.totalLocal) / t.totalLocal * 100 : 0,
+        minPriceLocal: total / (1 - n.margin / 100),
+        unitCostLocal: r2.totals.unitCostLocal, fallout: t.totalLocal > 0 ? (total - t.totalLocal) / t.totalLocal * 100 : 0
+      };
+    }
+    var sensitivity = [
+      variant({ dutyAdd: 5 }, '关税率 +5 个百分点', '各行关税率同时加 5 个点'),
+      variant({ dutyAdd: 20 }, '关税率 +20 个百分点', ''),
+      variant({ rateMul: 1.05 }, '汇率 +5%', '外币升值，本币成本上升'),
+      variant({ rateMul: 0.95 }, '汇率 −5%', '外币贬值，本币成本下降'),
+      variant({ freightMul: 1.2 }, '国际运费 +20%', '运保费也进完税价格'),
+      variant({ exciseAdd: 5 }, '消费税 +5 个百分点', '')
+    ];
+
+    // 提示
+    var warnings = [];
+    if (t.taxForeign === 0) warnings.push('三档税率都是 0，这批货没有任何税负；如果这不是你的本意，请检查关税率与增值税率是否漏填。');
+    var zeroRows = base.rows.filter(function (r) { return r.goodsForeign === 0; });
+    if (zeroRows.length) warnings.push('有 ' + zeroRows.length + ' 行货值为 0（' + zeroRows.map(function (r) { return r.name; }).join('、') + '）：不分摊运保费、不产生税额，但数量会计入单件成本的分母。');
+    var exciseRows = base.rows.filter(function (r) { return r.exciseRate > 0; });
+    if (exciseRows.length) warnings.push('有 ' + exciseRows.length + ' 行要缴消费税：它是价内税，会先把 (完税价格 + 关税) 还原成含税价再乘税率，同时抬高增值税的税基。');
+    if (m.naiveUnderstateLocal > 0.005) warnings.push('把三档税率直接相加会少算 ' + money(m.naiveUnderstateLocal) + ' 元（名义相加 ' + money(m.naiveTaxLocal) + ' 元 vs 实际税费 ' + money(t.taxLocal) + ' 元）。');
+    if (m.freightShare > 15) warnings.push('运保费占到总成本的 ' + pct(m.freightShare, 1) + '，而它们也要被征税——每省 1 元运保费，总成本降 ' + fmt(m.amplifier, 4) + ' 元。');
+    if (!n.targetPrice) warnings.push('没有填目标售价，已跳过「可承受货值上限 / 可承受关税率上限」的反推。');
+    if (t.otherLocal > t.totalLocal * 0.2) warnings.push('其他费用占总成本 ' + pct(t.otherLocal / t.totalLocal * 100, 1) + '，它们不进完税价格、不产生税额，但直接吃掉毛利。');
+
+    var result = {
+      ok: true,
+      currency: n.currency, rate: n.rate, insuranceMode: n.insuranceMode, margin: n.margin,
+      input: n,
+      rows: base.rows,
+      totals: t,
+      measures: m,
+      pricing: pricing,
+      reverse: reverse,
+      maxDuty: maxDuty,
+      sensitivity: sensitivity,
+      warnings: warnings,
+      nominal: {
+        dutyRate: n.rows.reduce(function (s, r) { return s + r.dutyRate; }, 0) / n.rows.length,
+        exciseRate: n.rows.reduce(function (s, r) { return s + r.exciseRate; }, 0) / n.rows.length,
+        vatRate: n.rows.reduce(function (s, r) { return s + r.vatRate; }, 0) / n.rows.length,
+        weightedSum: n.rows.reduce(function (s, r) { return s + r.dutyRate + r.exciseRate + r.vatRate; }, 0) / n.rows.length
+      }
+    };
+    // 自检恒等式（页面与测试都用得到；这里算出实际差值，便于如实标注）
+    var probe = n.rows.map(function (r) { return { name: r.name, qty: r.qty, unitPrice: r.unitPrice, dutyRate: r.dutyRate, exciseRate: r.exciseRate, vatRate: r.vatRate }; });
+    // 把外币运费加 1/汇率（即完税价格正好多 1 元本币），总成本应恰好多 (1 + 综合税负率) 元
+    var plusOneDutiable = { rows: probe, rate: n.rate, freight: n.freight + 1 / n.rate, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign };
+    var deltaDutiable = computeAt(plusOneDutiable, 1).totals.totalLocal - t.totalLocal;
+    var plusOneForeign = { rows: probe, rate: n.rate, freight: n.freight + 1, insuranceMode: n.insuranceMode, insuranceRate: n.insuranceRate, insuranceAmount: n.insuranceAmount, otherFees: n.otherFees, goodsForeign: n.goodsForeign };
+    var deltaForeign = computeAt(plusOneForeign, 1).totals.totalLocal - t.totalLocal;
+    result.checks = {
+      dutiableAmplifier: { actual: deltaDutiable, expected: m.amplifier, diff: deltaDutiable - m.amplifier },
+      freightAmplifier: { actual: deltaForeign, expected: n.rate * m.amplifier, diff: deltaForeign - n.rate * m.amplifier },
+      shareSum: { actual: m.dutyShare + m.exciseShare + m.vatShare, expected: t.taxForeign > 0 ? 100 : 0 }
+    };
+    return result;
+  }
+
+  var api = {
+    LIMITS: LIMITS, PRESETS: PRESETS, blankRow: blankRow, blankInput: blankInput,
+    clonePreset: clonePreset, normalize: normalize, solve: solve, computeAt: computeAt,
+    fmt: fmt, money: money, money4: money4, pct: pct
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  global.AppCore = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script><script>/* 到岸成本台 · ui.js —— 界面、导出与本地持久化（纯前端，不联网） */
+(function () {
+  'use strict';
+  var C = window.AppCore;
+  var STORE = 'landed-cost-ledger-v1';
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function money(x) { return C.money(x); }
+  function f2(x) { return C.fmt(x, 2); }
+  function f4(x) { return C.fmt(x, 4); }
+
+  // ── 状态 ────────────────────────────────────────────────────
+  var state = C.clonePreset('appliance');
+  var lastResult = null;
+  var savedAt = null;
+
+  function readInput() {
+    return {
+      currency: $('currency').value,
+      rate: $('rate').value,
+      freight: $('freight').value,
+      insuranceMode: $('insuranceMode').value,
+      insuranceRate: $('insuranceRate').value,
+      insuranceAmount: $('insuranceAmount').value,
+      margin: $('margin').value,
+      targetPrice: $('targetPrice').value,
+      rows: state.rows.map(function (r, i) {
+        return {
+          name: ($('rowName' + i) || {}).value === undefined ? r.name : $('rowName' + i).value,
+          qty: ($('rowQty' + i) || {}).value === undefined ? r.qty : $('rowQty' + i).value,
+          unitPrice: ($('rowPrice' + i) || {}).value === undefined ? r.unitPrice : $('rowPrice' + i).value,
+          dutyRate: ($('rowDuty' + i) || {}).value === undefined ? r.dutyRate : $('rowDuty' + i).value,
+          exciseRate: ($('rowExcise' + i) || {}).value === undefined ? r.exciseRate : $('rowExcise' + i).value,
+          vatRate: ($('rowVat' + i) || {}).value === undefined ? r.vatRate : $('rowVat' + i).value
+        };
+      }),
+      otherFees: state.otherFees.map(function (f, i) {
+        return {
+          name: ($('feeName' + i) || {}).value === undefined ? f.name : $('feeName' + i).value,
+          amount: ($('feeAmount' + i) || {}).value === undefined ? f.amount : $('feeAmount' + i).value
+        };
+      })
+    };
+  }
+
+  function writeInput(input) {
+    state = {
+      currency: input.currency || 'USD', rate: input.rate, freight: input.freight,
+      insuranceMode: input.insuranceMode || 'rate',
+      insuranceRate: input.insuranceRate === undefined || input.insuranceRate === null ? '0.3' : input.insuranceRate,
+      insuranceAmount: input.insuranceAmount === undefined || input.insuranceAmount === null ? '' : input.insuranceAmount,
+      margin: input.margin === undefined || input.margin === null ? '25' : input.margin,
+      targetPrice: input.targetPrice === undefined || input.targetPrice === null ? '' : input.targetPrice,
+      rows: (input.rows || []).map(function (r) {
+        return { name: r.name || '', qty: r.qty === '' || r.qty === undefined ? '1' : String(r.qty), unitPrice: r.unitPrice === undefined ? '' : String(r.unitPrice), dutyRate: r.dutyRate === undefined ? '' : String(r.dutyRate), exciseRate: r.exciseRate === undefined ? '0' : String(r.exciseRate), vatRate: r.vatRate === undefined ? '13' : String(r.vatRate) };
+      }),
+      otherFees: (input.otherFees || []).map(function (f) { return { name: f.name || '', amount: f.amount === undefined ? '' : String(f.amount) }; })
+    };
+    if (!state.rows.length) state.rows = [C.blankRow()];
+  }
+
+  // ── 输入区渲染 ──────────────────────────────────────────────
+  function renderRows() {
+    var box = $('rows');
+    box.innerHTML = state.rows.map(function (r, i) {
+      return '<div class="item" data-row="' + i + '">' +
+        '<div class="item-head"><span class="idx">' + (i + 1) + '</span>' +
+        '<input type="text" id="rowName' + i + '" aria-label="第' + (i + 1) + '行货物名称" placeholder="货物名称" value="' + esc(r.name) + '">' +
+        '<button type="button" class="mini del-row" data-arg="' + i + '">删除</button></div>' +
+        '<div class="grid3">' +
+        '<label class="f"><span>数量</span><input type="text" inputmode="numeric" id="rowQty' + i + '" aria-label="第' + (i + 1) + '行数量" value="' + esc(r.qty) + '"></label>' +
+        '<label class="f"><span>单价（外币）</span><input type="text" inputmode="decimal" id="rowPrice' + i + '" aria-label="第' + (i + 1) + '行单价" value="' + esc(r.unitPrice) + '"></label>' +
+        '<label class="f"><span>关税率 %</span><input type="text" inputmode="decimal" id="rowDuty' + i + '" aria-label="第' + (i + 1) + '行关税率" value="' + esc(r.dutyRate) + '"></label>' +
+        '<label class="f"><span>消费税率 %</span><input type="text" inputmode="decimal" id="rowExcise' + i + '" aria-label="第' + (i + 1) + '行消费税率" value="' + esc(r.exciseRate) + '"></label>' +
+        '<label class="f"><span>增值税率 %</span><input type="text" inputmode="decimal" id="rowVat' + i + '" aria-label="第' + (i + 1) + '行增值税率" value="' + esc(r.vatRate) + '"></label>' +
+        '</div></div>';
+    }).join('');
+  }
+  function renderFees() {
+    $('fees').innerHTML = state.otherFees.map(function (f, i) {
+      return '<div class="item" data-fee="' + i + '"><div class="item-head"><span class="idx">¥</span>' +
+        '<input type="text" id="feeName' + i + '" aria-label="第' + (i + 1) + '项费用名称" placeholder="费用名称（如 报关与口岸费）" value="' + esc(f.name) + '">' +
+        '<input type="text" inputmode="decimal" id="feeAmount' + i + '" class="amount" aria-label="第' + (i + 1) + '项费用金额" placeholder="金额" value="' + esc(f.amount) + '">' +
+        '<button type="button" class="mini del-fee" data-arg="' + i + '">删除</button></div></div>';
+    }).join('');
+  }
+  function renderFields() {
+    $('currency').value = state.currency;
+    $('rate').value = state.rate;
+    $('freight').value = state.freight;
+    $('insuranceMode').value = state.insuranceMode;
+    $('insuranceRate').value = state.insuranceRate === null ? '' : state.insuranceRate;
+    $('insuranceAmount').value = state.insuranceAmount === null ? '' : state.insuranceAmount;
+    $('margin').value = state.margin;
+    $('targetPrice').value = state.targetPrice;
+    var byRate = state.insuranceMode === 'rate';
+    $('insuranceRate').disabled = !byRate;
+    $('insuranceAmount').disabled = byRate;
+  }
+  function renderInputs() { renderRows(); renderFees(); renderFields(); }
+
+  // ── 结果区渲染 ──────────────────────────────────────────────
+  var COST_KEYS = [
+    ['goodsLocal', '货物货值', false],
+    ['freightLocal', '国际运费', false],
+    ['insuranceLocal', '保险费', false],
+    ['dutyLocal', '关税', true],
+    ['exciseLocal', '消费税', true],
+    ['vatLocal', '增值税', true],
+    ['otherLocal', '其他费用', false]
+  ];
+
+  function renderResult(r) {
+    var t = r.totals, m = r.measures, u = esc(r.currency);
+    var h = [];
+    h.push('<div class="metric">' + esc('到岸总成本') + ' <strong>' + money(t.totalLocal) + '</strong> 元（人民币）<br>' +
+      '<span class="sub">单件 ' + money(t.unitCostLocal) + ' 元 / ' + t.totalQty + ' 件 · 综合税负率 <strong>' + f2(m.burdenRate) + '%</strong> · 含税放大 ' + f4(m.amplifier) + ' 倍</span></div>');
+    h.push('<div class="stats">' +
+      '<div><strong>' + money(t.goodsLocal) + '</strong><span>货物货值（本币，按汇率 ' + f4(r.rate) + ' 折算）</span></div>' +
+      '<div><strong>' + money((t.freightForeign + t.insuranceForeign) * r.rate) + '</strong><span>运保费（本币，也进完税价格）</span></div>' +
+      '<div><strong>' + money(t.dutiableForeign * r.rate) + '</strong><span>完税价格（货值＋运保费，本币）</span></div>' +
+      '<div><strong>' + money(t.taxLocal) + '</strong><span>税费合计（本币）</span></div>' +
+      '<div><strong>' + f2(m.freightShare) + '%</strong><span>运保费占总成本</span></div>' +
+      '</div>');
+
+    // 成本构成
+    h.push('<h3>成本构成</h3><div>');
+    var maxv = Math.max.apply(null, COST_KEYS.map(function (k) { return t[k[0]]; }));
+    COST_KEYS.forEach(function (k) {
+      var v = t[k[0]];
+      var share = t.totalLocal > 0 ? v / t.totalLocal * 100 : 0;
+      var cls = k[2] ? 'bar hot' : 'bar';
+      h.push('<div class="barrow"><b>' + esc(k[1]) + '</b><span class="' + cls + '"><i style="width:' + (maxv > 0 ? v / maxv * 100 : 0).toFixed(2) + '%"></i></span><span>' + money(v) + '（' + f2(share) + '%）</span></div>');
+    });
+    h.push('</div>');
+    h.push('<div class="tw"><table class="stack"><thead><tr><th>构成</th><th>金额（本币）</th><th>占总成本</th><th>是否进完税价格</th></tr></thead><tbody>');
+    var anyExcise = t.exciseLocal > 0;
+    COST_KEYS.forEach(function (k) {
+      var v = t[k[0]];
+      h.push('<tr><td data-label="构成">' + esc(k[1]) + '</td><td class="num" data-label="金额（本币）">' + money(v) + '</td><td class="num" data-label="占总成本">' + f2(t.totalLocal > 0 ? v / t.totalLocal * 100 : 0) + '%</td><td data-label="是否进完税价格">' + (k[0] === 'goodsLocal' || k[0] === 'freightLocal' || k[0] === 'insuranceLocal' ? '是' : (k[2] ? '间接：以完税价格为基数' : '否')) + '</td></tr>');
+    });
+    h.push('<tr class="cur"><td data-label="构成"><b>总成本</b></td><td class="num" data-label="金额（本币）"><b>' + money(t.totalLocal) + '</b></td><td class="num" data-label="占总成本"><b>100.00%</b></td><td data-label="是否进完税价格">—</td></tr>');
+    h.push('</tbody></table></div>');
+
+    // 逐行明细
+    h.push('<h3>逐行明细<span class="note" style="font-weight:400">（表格较宽时可左右滑动查看全部列）</span></h3><div class="tw"><table class="stack"><thead><tr><th>货物</th><th>数量</th><th>单价</th><th>货值</th><th>运保费</th><th>完税价</th><th>关税</th>' + (anyExcise ? '<th>消费税</th>' : '') + '<th>增值税</th><th>行成本</th><th>税负率</th></tr></thead><tbody>');
+    r.rows.forEach(function (x) {
+      h.push('<tr><td data-label="货物">' + esc(x.name) + '</td><td class="num" data-label="数量">' + x.qty + '</td><td class="num" data-label="单价">' + f4(x.unitPrice) + '</td><td class="num" data-label="货值">' + f2(x.goodsForeign) + '</td><td class="num" data-label="运保费">' + f2(x.apportionedForeign) + '</td><td class="num" data-label="完税价">' + f2(x.dutiableForeign) + '</td><td class="num" data-label="关税">' + f2(x.dutyForeign) + '</td>' + (anyExcise ? '<td class="num" data-label="消费税">' + f2(x.exciseForeign) + '</td>' : '') + '<td class="num" data-label="增值税">' + f2(x.vatForeign) + '</td><td class="num" data-label="行成本">' + money(x.totalLocal) + '</td><td class="num" data-label="税负率">' + f2(x.burdenRate) + '%</td></tr>');
+    });
+    h.push('</tbody></table></div><div class="note">表中外币列为 ' + esc(r.currency) + '，本币列（行成本）按汇率 ' + f4(r.rate) + ' 折算，显示四舍五入到分。每行分摊的运保费 = 该行货值 × （运保费 ÷ 总货值）。</div>');
+
+    // 口径对照
+    h.push('<h3>口径对照：为什么不能用「三档税率直接相加」</h3><div class="tw"><table class="stack fix"><thead><tr><th style="width:24%">口径</th><th style="width:20%">税费（本币）</th><th style="width:56%">说明</th></tr></thead><tbody>');
+    h.push('<tr><td data-label="口径">三档税率直接相加（常见错算）</td><td class="num" data-label="税费（本币）">' + money(m.naiveTaxLocal) + '</td><td data-label="说明">完税价格 ×（关税率 + 消费税率 + 增值税率），忽略了消费税是价内税、增值税的税基含关税与消费税</td></tr>');
+    h.push('<tr class="cur"><td data-label="口径"><b>本页口径（逐层计征）</b></td><td class="num" data-label="税费（本币）"><b>' + money(t.taxLocal) + '</b></td><td data-label="说明">关税 → 价内消费税倒算 → 增值税按含关税与消费税的价格计征</td></tr>');
+    h.push('<tr><td data-label="口径">差额（错算会少算）</td><td class="num" data-label="税费（本币）">' + money(m.naiveUnderstateLocal) + '</td><td data-label="说明">' + (t.taxLocal > 0 ? '相当于实际税费的 ' + f2(m.naiveUnderstateLocal / t.taxLocal * 100) + '%' : '—') + '</td></tr>');
+    h.push('</tbody></table></div>');
+    h.push('<div class="note">综合税负率 <b>' + f2(m.burdenRate) + '%</b>（税费 ÷ 完税价格），三档税率行平均之和只有 ' + f2(r.nominal.weightedSum) + '%。<b>含税放大倍数 ' + f4(m.amplifier) + '</b>：完税价格（或运保费）每多 1 元，本币总成本就多 ' + f4(m.amplifier) + ' 元。</div>');
+
+    // 定价与反推
+    h.push('<h3>定价与反推</h3><div class="tw"><table class="stack fix"><thead><tr><th style="width:30%">项目</th><th style="width:26%">数值</th><th style="width:44%">口径</th></tr></thead><tbody>');
+    h.push('<tr><td data-label="项目">总成本</td><td class="num" data-label="数值">' + money(t.totalLocal) + '</td><td data-label="口径">到岸成本 + 税费 + 其他费用</td></tr>');
+    h.push('<tr><td data-label="项目">目标毛利率</td><td class="num" data-label="数值">' + f2(r.margin) + '%</td><td data-label="口径">你在左侧填的毛利要求</td></tr>');
+    h.push('<tr class="cur"><td data-label="项目"><b>最低售价（整批）</b></td><td class="num" data-label="数值"><b>' + money(r.pricing.minPriceLocal) + '</b></td><td data-label="口径">总成本 ÷ (1 − 毛利率)</td></tr>');
+    h.push('<tr><td data-label="项目">最低单件售价</td><td class="num" data-label="数值">' + money(r.pricing.minUnitPriceLocal) + '</td><td data-label="口径">最低售价 ÷ ' + t.totalQty + ' 件</td></tr>');
+    h.push('<tr><td data-label="项目">这个售价下的毛利额</td><td class="num" data-label="数值">' + money(r.pricing.grossProfitLocal) + '</td><td data-label="口径">最低售价 − 总成本</td></tr>');
+    if (r.reverse) {
+      h.push('<tr><td data-label="项目">目标售价</td><td class="num" data-label="数值">' + money(r.reverse.targetPriceLocal) + '</td><td data-label="口径">你在左侧填的卖价</td></tr>');
+      h.push('<tr><td data-label="项目">这个售价允许的成本</td><td class="num" data-label="数值">' + money(r.reverse.allowedCostLocal) + '</td><td data-label="口径">目标售价 × (1 − 毛利率)</td></tr>');
+      h.push('<tr class="' + (r.reverse.meets ? 'cur' : '') + '"><td data-label="项目"><b>目标是否达标</b></td><td class="num" data-label="数值"><b>' + (r.reverse.meets ? '达标' : '不达标') + '</b></td><td data-label="口径">当前成本 ' + money(t.totalLocal) + ' vs 允许成本 ' + money(r.reverse.allowedCostLocal) + '</td></tr>');
+      if (r.reverse.reason) h.push('<tr><td data-label="项目">可承受货值上限</td><td class="num" data-label="数值">—</td><td data-label="口径">' + esc(r.reverse.reason) + '</td></tr>');
+      else {
+        h.push('<tr><td data-label="项目">可承受货值上限（合计）</td><td class="num" data-label="数值">' + money(r.reverse.maxGoodsForeign) + ' ' + u + '（' + money(r.reverse.maxGoodsLocal) + ' 元）</td><td data-label="口径">保持各行比例与运保费、其他费用不变，货值最高到这个数</td></tr>');
+        h.push('<tr><td data-label="项目">相对当前货值的余量</td><td class="num" data-label="数值">' + (r.reverse.headroomPct >= 0 ? '+' : '') + f2(r.reverse.headroomPct) + '%</td><td data-label="口径">（上限 ÷ 当前货值 − 1）；当前货值 ' + f2(r.reverse.currentGoodsForeign) + ' ' + u + '</td></tr>');
+        h.push('<tr><td data-label="项目">反推校验（解回代残差）</td><td class="num" data-label="数值">' + C.fmt(r.reverse.residualLocal, 8) + ' 元</td><td data-label="口径">把货值缩放到上限后重算的总成本 − 允许成本</td></tr>');
+      }
+      if (r.maxDuty && r.maxDuty.available) {
+        h.push('<tr' + (r.maxDuty.rate > r.maxDuty.currentMaxDuty ? ' class="cur"' : '') + '><td data-label="项目"><b>可承受的统一关税率上限</b></td><td class="num" data-label="数值"><b>' + f2(r.maxDuty.rate) + '%</b>' + (r.maxDuty.capped ? '（已截断到 300%）' : '') + '</td><td data-label="口径">各行关税率统一提高到这个数时，成本恰好用满允许成本；当前最高 ' + f2(r.maxDuty.currentMaxDuty) + '%；每 1 个百分点约 ' + money(r.maxDuty.perPointLocal) + ' 元' + (r.maxDuty.residualLocal === null ? '' : '；回代残差 ' + C.fmt(r.maxDuty.residualLocal, 8) + ' 元') + '</td></tr>');
+      } else if (r.maxDuty) {
+        h.push('<tr><td data-label="项目">可承受的统一关税率上限</td><td class="num" data-label="数值">—</td><td data-label="口径">' + esc(r.maxDuty.reason || '关税为 0 时已经是当前成本') + '</td></tr>');
+      }
+    } else {
+      h.push('<tr><td data-label="项目">可承受货值 / 关税率上限</td><td class="num" data-label="数值">—</td><td data-label="口径">左侧没有填目标售价，未反推</td></tr>');
+    }
+    h.push('</tbody></table></div>');
+    if (r.reverse && !r.reverse.meets && !r.reverse.reason) {
+      h.push('<div class="buttons"><button type="button" class="mini apply" data-act="scale-goods">把各行单价按上限等比压低并重算</button></div>');
+    }
+    if (r.maxDuty && r.maxDuty.available && r.maxDuty.rate > 0 && !r.maxDuty.capped && r.maxDuty.rate < 300) {
+      h.push('<div class="buttons"><button type="button" class="mini apply" data-act="set-duty">把各行关税率改成上限值并重算</button></div>');
+    }
+
+    // 敏感性
+    h.push('<h3>敏感性：改一个条件，成本怎么变</h3><div class="tw"><table class="stack"><thead><tr><th>情形</th><th>总成本</th><th>变化</th><th>最低售价</th></tr></thead><tbody>');
+    r.sensitivity.forEach(function (s) {
+      h.push('<tr><td data-label="情形">' + esc(shortLabel(s.label)) + (s.note ? '<br><span class="note">' + esc(s.note) + '</span>' : '') + '</td><td class="num" data-label="总成本">' + money(s.totalLocal) + '</td><td class="num" data-label="变化">' + (s.deltaLocal >= 0 ? '+' : '−') + money(Math.abs(s.deltaLocal)) + '（' + (s.deltaPct >= 0 ? '+' : '−') + f2(Math.abs(s.deltaPct)) + '%）</td><td class="num" data-label="最低售价">' + money(s.minPriceLocal) + '</td></tr>');
+    });
+    h.push('</tbody></table></div>');
+
+    // 建议
+    h.push('<h3>下一步</h3><ul class="advice">');
+    advise(r).forEach(function (a) { h.push('<li class="' + a.cls + '">' + a.html + '</li>'); });
+    h.push('</ul>');
+
+    // 提示
+    if (r.warnings.length) {
+      h.push('<h3>需要注意</h3><ul class="warnlist">');
+      r.warnings.forEach(function (w) { h.push('<li>' + esc(w) + '</li>'); });
+      h.push('</ul>');
+    }
+    $('result').innerHTML = h.join('');
+  }
+
+  /** 敏感性表的短标签（表格里省地方；完整口径在「算法与使用边界」与 MD 里） */
+  function shortLabel(label) {
+    return String(label).replace('关税率 +5 个百分点', '关税 +5 个点').replace('关税率 +20 个百分点', '关税 +20 个点')
+      .replace('消费税 +5 个百分点', '消费税 +5 个点').replace('国际运费 +20%', '运费 +20%');
+  }
+
+  function advise(r) {
+    var t = r.totals, m = r.measures, out = [];
+    // 主导税种
+    if (t.taxForeign > 0) {
+      var kinds = [['关税', m.dutyShare, t.dutyLocal], ['消费税', m.exciseShare, t.exciseLocal], ['增值税', m.vatShare, t.vatLocal]];
+      kinds.sort(function (a, b) { return b[1] - a[1]; });
+      var top = kinds[0];
+      out.push({ cls: 'key', html: '这批货的税费里 <b>' + top[0] + '</b> 最多：' + money(top[2]) + ' 元，占税费的 <b>' + f2(top[1]) + '%</b>。综合税负率 ' + f2(m.burdenRate) + '%（税费 ÷ 完税价格），而三档税率行平均之和只有 ' + f2(r.nominal.weightedSum) + '%——差的这部分就是税在滚：' + (t.exciseLocal > 0 ? '消费税是价内税，会把 (完税价格 + 关税) 还原成含税价；' : '') + '增值税的税基里含关税' + (t.exciseLocal > 0 ? '与消费税' : '') + '。' });
+    }
+    // 放大倍数
+    out.push({ cls: 'info', html: '含税放大倍数 <b>' + f4(m.amplifier) + '</b>：完税价格每多 1 元（比如多花 1 元运费或保险），本币总成本就多 <b>' + f4(m.amplifier) + '</b> 元。目前运保费占总成本 ' + f2(m.freightShare) + '%。' + (m.freightShare >= 8 ? '想省钱，先看能不能压运费与保险。' : '运保费占比不高，压它省下来的有限。') });
+    // 达标
+    if (r.reverse) {
+      if (r.reverse.meets) {
+        var extra = r.reverse.reason ? '' : '，货值还有约 ' + f2(r.reverse.headroomPct) + '% 的空间（上限 ' + money(r.reverse.maxGoodsForeign) + ' ' + r.currency + '）';
+        out.push({ cls: 'ok', html: '在目标售价 ' + money(r.reverse.targetPriceLocal) + ' 元、毛利率 ' + f2(r.margin) + '% 的要求下，允许成本 ' + money(r.reverse.allowedCostLocal) + ' 元，当前成本 ' + money(t.totalLocal) + ' 元，<b>达标</b>' + extra + '。' });
+      } else if (r.reverse.reason) {
+        out.push({ cls: 'act', html: '在目标售价 ' + money(r.reverse.targetPriceLocal) + ' 元、毛利率 ' + f2(r.margin) + '% 的要求下，允许成本只有 ' + money(r.reverse.allowedCostLocal) + ' 元，而当前成本 ' + money(t.totalLocal) + ' 元：<b>' + esc(r.reverse.reason) + '</b>。要么提高售价、要么降低毛利要求，要么把运保费与其他费用压下来。' });
+      } else {
+        out.push({ cls: 'act', html: '在目标售价 ' + money(r.reverse.targetPriceLocal) + ' 元、毛利率 ' + f2(r.margin) + '% 的要求下，允许成本 ' + money(r.reverse.allowedCostLocal) + ' 元，当前成本 ' + money(t.totalLocal) + ' 元，<b>超了 ' + money(t.totalLocal - r.reverse.allowedCostLocal) + ' 元</b>。按现在的结构，货值要压到 ' + money(r.reverse.maxGoodsForeign) + ' ' + r.currency + '（' + (r.reverse.headroomPct >= 0 ? '还能涨 ' : '要降 ') + f2(Math.abs(r.reverse.headroomPct)) + '%）才够；也可以把售价提到 ' + money(r.pricing.minPriceLocal) + ' 元以上。' });
+      }
+    }
+    // 关税率上限
+    if (r.maxDuty && r.maxDuty.available && !r.maxDuty.capped && r.maxDuty.rate >= 0) {
+      out.push({ cls: r.maxDuty.rate > r.maxDuty.currentMaxDuty ? 'ok' : 'warn', html: '关税最多能涨到 <b>' + f2(r.maxDuty.rate) + '%</b>（各行统一口径，当前最高 ' + f2(r.maxDuty.currentMaxDuty) + '%）：再高，这个售价与毛利就撑不住了。每 1 个百分点关税约 ' + money(r.maxDuty.perPointLocal) + ' 元。' });
+    } else if (r.maxDuty && r.maxDuty.reason) {
+      out.push({ cls: 'warn', html: '关于关税空间：' + esc(r.maxDuty.reason) + '。' });
+    }
+    // 最敏感
+    if (r.sensitivity.length) {
+      var worst = r.sensitivity.slice().sort(function (a, b) { return Math.abs(b.deltaPct) - Math.abs(a.deltaPct); })[0];
+      out.push({ cls: 'info', html: '这几项里最敏感的是 <b>' + esc(worst.label) + '</b>：总成本 ' + (worst.deltaPct >= 0 ? '+' : '−') + f2(Math.abs(worst.deltaPct)) + '%（' + (worst.deltaLocal >= 0 ? '+' : '−') + money(Math.abs(worst.deltaLocal)) + ' 元），最低售价随之变成 ' + money(worst.minPriceLocal) + ' 元。' });
+    }
+    if (m.exciseShare > 0) out.push({ cls: 'info', html: '消费税只在部分品类上征收，本页按你填的税率算<b>从价</b>消费税；从量、复合计税（按支、按升加定额税）不在本页范围内。' });
+    out.push({ cls: 'info', html: '本页不查税则、不判断归类、不联网：所有税率都来自你填的输入。真实申报的完税价格认定、汇率适用日与税额取整另有规定，请以海关与税务的正式口径为准。' });
+    return out;
+  }
+
+  function showError(msg) {
+    $('error').textContent = msg;
+    $('downloads').style.display = 'none';
+  }
+  function clearError() {
+    $('error').textContent = '';
+    $('downloads').style.display = '';
+  }
+
+  function recompute(silent) {
+    var input = readInput();
+    var r;
+    try {
+      r = C.solve(input);
+    } catch (e) {
+      lastResult = null;
+      window.__lastResult = null;
+      showError((e && e.userMessage) || ('计算出错：' + (e && e.message)));
+      return null;
+    }
+    lastResult = r;
+    window.__lastResult = r;
+    clearError();
+    renderResult(r);
+    if (!silent) $('message').textContent = '';
+    return r;
+  }
+
+  // ── 导出 ────────────────────────────────────────────────────
+  function download(name, text, mime) {
+    var blob = new Blob([text], { type: mime || 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function csvText(r) {
+    var t = r.totals;
+    var head = ['行号', '货物', '数量', '单价(' + r.currency + ')', '关税率%', '消费税率%', '增值税率%', '货值(' + r.currency + ')', '分摊运保费(' + r.currency + ')', '完税价格(' + r.currency + ')', '关税(' + r.currency + ')', '消费税(' + r.currency + ')', '增值税(' + r.currency + ')', '税额合计(' + r.currency + ')', '行总成本(本币)', '单件成本(本币)', '该行税负率%'];
+    var lines = [head.join(',')];
+    r.rows.forEach(function (x, i) {
+      lines.push([i + 1, '"' + String(x.name).replace(/"/g, '""') + '"', x.qty, x.unitPrice.toFixed(4), x.dutyRate, x.exciseRate, x.vatRate,
+        x.goodsForeign.toFixed(4), x.apportionedForeign.toFixed(4), x.dutiableForeign.toFixed(4),
+        x.dutyForeign.toFixed(4), x.exciseForeign.toFixed(4), x.vatForeign.toFixed(4), x.taxForeign.toFixed(4),
+        x.totalLocal.toFixed(2), x.unitLocal.toFixed(2), x.burdenRate.toFixed(6)].join(','));
+    });
+    lines.push('');
+    lines.push(['# 汇总'].join(','));
+    [['货物货值(' + r.currency + ')', t.goodsForeign], ['国际运费(' + r.currency + ')', t.freightForeign], ['保险费(' + r.currency + ')', t.insuranceForeign],
+      ['完税价格(' + r.currency + ')', t.dutiableForeign], ['关税(' + r.currency + ')', t.dutyForeign], ['消费税(' + r.currency + ')', t.exciseForeign],
+      ['增值税(' + r.currency + ')', t.vatForeign], ['税费合计(' + r.currency + ')', t.taxForeign], ['汇率', r.rate],
+      ['到岸成本(本币)', t.landedLocal], ['税费(本币)', t.taxLocal], ['其他费用(本币)', t.otherLocal], ['总成本(本币)', t.totalLocal],
+      ['总数量', t.totalQty], ['单件成本(本币)', t.unitCostLocal], ['综合税负率%', r.measures.burdenRate], ['含税放大倍数', r.measures.amplifier],
+      ['名义相加口径税费(本币)', r.measures.naiveTaxLocal], ['名义相加少算(本币)', r.measures.naiveUnderstateLocal],
+      ['最低售价(本币)', r.pricing.minPriceLocal], ['最低单件售价(本币)', r.pricing.minUnitPriceLocal]].forEach(function (p) {
+        lines.push('"' + p[0] + '",' + (typeof p[1] === 'number' ? p[1].toFixed(6) : p[1]));
+      });
+    if (r.reverse) {
+      lines.push('"目标售价(本币)",' + r.reverse.targetPriceLocal.toFixed(2));
+      lines.push('"允许成本(本币)",' + r.reverse.allowedCostLocal.toFixed(2));
+      lines.push('"目标是否达标",' + (r.reverse.meets ? '达标' : '不达标'));
+      if (!r.reverse.reason) {
+        lines.push('"可承受货值上限(' + r.currency + ')",' + r.reverse.maxGoodsForeign.toFixed(6));
+        lines.push('"货值余量%",' + r.reverse.headroomPct.toFixed(6));
+      }
+    }
+    if (r.maxDuty && r.maxDuty.available) lines.push('"可承受统一关税率上限%",' + r.maxDuty.rate.toFixed(6));
+    lines.push('"说明","默认样例与内置场景均为虚构示例；税率由用户自填，本页不查税则、不联网"');
+    return lines.join('\n') + '\n';
+  }
+  function mdText(r) {
+    var t = r.totals, m = r.measures, L = [];
+    L.push('# 到岸成本台 · 结果说明');
+    L.push('');
+    L.push('- 生成时间：' + new Date().toISOString() + '（本机时间 ' + new Date().toLocaleString() + '）');
+    L.push('- 币种：' + r.currency + '，汇率 ' + f4(r.rate) + '（人民币 / 1 外币）');
+    L.push('- 本页所有数字来自同一次计算；默认样例与内置场景均为**虚构示例**，税率由用户自填，不代表任何真实税则或政策。');
+    L.push('');
+    L.push('## 结论');
+    L.push('');
+    L.push('| 项目 | 数值 |');
+    L.push('|---|---|');
+    L.push('| 到岸总成本 | ' + money(t.totalLocal) + ' 元 |');
+    L.push('| 单件成本 | ' + money(t.unitCostLocal) + ' 元 / ' + t.totalQty + ' 件 |');
+    L.push('| 完税价格（含运保费） | ' + money(t.dutiableForeign * r.rate) + ' 元（' + f2(t.dutiableForeign) + ' ' + r.currency + '） |');
+    L.push('| 税费合计 | ' + money(t.taxLocal) + ' 元 |');
+    L.push('| 综合税负率 | ' + f2(m.burdenRate) + '% |');
+    L.push('| 含税放大倍数 | ' + f4(m.amplifier) + ' |');
+    L.push('| 最低售价（毛利 ' + f2(r.margin) + '%） | ' + money(r.pricing.minPriceLocal) + ' 元 |');
+    if (r.reverse && !r.reverse.reason) L.push('| 可承受货值上限 | ' + money(r.reverse.maxGoodsForeign) + ' ' + r.currency + '（余量 ' + f2(r.reverse.headroomPct) + '%） |');
+    if (r.maxDuty && r.maxDuty.available) L.push('| 可承受统一关税率上限 | ' + f2(r.maxDuty.rate) + '% |');
+    L.push('');
+    L.push('## 成本构成');
+    L.push('');
+    L.push('| 构成 | 金额（本币） | 占总成本 |');
+    L.push('|---|---|---|');
+    COST_KEYS.forEach(function (k) {
+      L.push('| ' + k[1] + ' | ' + money(t[k[0]]) + ' | ' + f2(t.totalLocal > 0 ? t[k[0]] / t.totalLocal * 100 : 0) + '% |');
+    });
+    L.push('| **总成本** | **' + money(t.totalLocal) + '** | **100.00%** |');
+    L.push('');
+    L.push('## 逐行明细');
+    L.push('');
+    L.push('| 货物 | 数量 | 单价(' + r.currency + ') | 货值 | 分摊运保费 | 完税价格 | 关税 | 消费税 | 增值税 | 行总成本(本币) | 单件成本 | 该行税负率 |');
+    L.push('|---|---|---|---|---|---|---|---|---|---|---|---|');
+    r.rows.forEach(function (x) {
+      L.push('| ' + x.name + ' | ' + x.qty + ' | ' + f4(x.unitPrice) + ' | ' + f2(x.goodsForeign) + ' | ' + f2(x.apportionedForeign) + ' | ' + f2(x.dutiableForeign) + ' | ' + f2(x.dutyForeign) + ' | ' + f2(x.exciseForeign) + ' | ' + f2(x.vatForeign) + ' | ' + money(x.totalLocal) + ' | ' + money(x.unitLocal) + ' | ' + f2(x.burdenRate) + '% |');
+    });
+    L.push('');
+    L.push('## 口径对照');
+    L.push('');
+    L.push('- 三档税率直接相加（常见错算）：' + money(m.naiveTaxLocal) + ' 元');
+    L.push('- 本页逐层计征口径：' + money(t.taxLocal) + ' 元');
+    L.push('- 错算会少算：' + money(m.naiveUnderstateLocal) + ' 元' + (t.taxLocal > 0 ? '（实际税费的 ' + f2(m.naiveUnderstateLocal / t.taxLocal * 100) + '%）' : ''));
+    L.push('- 三档税率行平均之和 ' + f2(r.nominal.weightedSum) + '%，实际综合税负率 ' + f2(m.burdenRate) + '%');
+    L.push('- 含税放大倍数 ' + f4(m.amplifier) + '：完税价格每多 1 元，总成本多 ' + f4(m.amplifier) + ' 元');
+    L.push('');
+    L.push('## 敏感性');
+    L.push('');
+    L.push('| 情形 | 总成本（本币） | 变化额 | 变化率 | 最低售价 |');
+    L.push('|---|---|---|---|---|');
+    r.sensitivity.forEach(function (s) {
+      L.push('| ' + s.label + (s.note ? '（' + s.note + '）' : '') + ' | ' + money(s.totalLocal) + ' | ' + (s.deltaLocal >= 0 ? '+' : '−') + money(Math.abs(s.deltaLocal)) + ' | ' + (s.deltaPct >= 0 ? '+' : '−') + f2(Math.abs(s.deltaPct)) + '% | ' + money(s.minPriceLocal) + ' |');
+    });
+    L.push('');
+    L.push('## 建议');
+    L.push('');
+    advise(r).forEach(function (a) { L.push('- ' + a.html.replace(/<[^>]+>/g, '')); });
+    if (r.warnings.length) {
+      L.push('');
+      L.push('## 需要注意');
+      L.push('');
+      r.warnings.forEach(function (w) { L.push('- ' + w); });
+    }
+    L.push('');
+    L.push('## 边界（同页面「算法与使用边界」）');
+    L.push('');
+    L.push('- 运保费按货值比例分摊；不做从量税与复合计税、反倾销税、出口退税与进项抵扣、免税额度与行邮税、跨境电商综合税优惠口径。');
+    L.push('- 不查税则、不判断商品归类、不联网查税率与汇率；不做申报口径的取整与汇率适用日规则；不支持一行一币种与分批到货。');
+    L.push('- 不给任何避税、低报或归类规避建议。真实申报请以海关与税务的正式口径为准。');
+    return L.join('\n') + '\n';
+  }
+
+  // ── 结果卡 PNG（1080×1350） ─────────────────────────────────
+  function wrapText(ctx, text, maxWidth, maxLines) {
+    var chars = String(text).split('');
+    var lines = [], line = '';
+    for (var i = 0; i < chars.length; i++) {
+      var test = line + chars[i];
+      if (ctx.measureText(test).width > maxWidth && line) { lines.push(line); line = chars[i]; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    if (maxLines && lines.length > maxLines) {
+      lines = lines.slice(0, maxLines);
+      lines[maxLines - 1] = lines[maxLines - 1].slice(0, -1) + '…';
+    }
+    return lines;
+  }
+  function drawCard(r) {
+    var cv = document.createElement('canvas');
+    cv.width = 1080; cv.height = 1350;
+    var g = cv.getContext('2d');
+    var t = r.totals, m = r.measures;
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, 1080, 1350);
+    g.fillStyle = '#eef3f8'; g.fillRect(0, 0, 1080, 250);
+    g.fillStyle = '#2d5f96'; g.fillRect(0, 0, 1080, 14);
+    g.fillStyle = '#4f6b91'; g.font = '600 24px system-ui,"PingFang SC",sans-serif';
+    g.fillText('LANDED COST LEDGER · 进口到岸成本与税费对账', 64, 84);
+    g.fillStyle = '#22344e'; g.font = '700 52px system-ui,"PingFang SC",sans-serif';
+    g.fillText('到岸成本台', 64, 152);
+    g.fillStyle = '#5a6d84'; g.font = '400 26px system-ui,"PingFang SC",sans-serif';
+    g.fillText('币种 ' + r.currency + ' · 汇率 ' + f4(r.rate) + ' · 目标毛利 ' + f2(r.margin) + '%', 64, 200);
+    // 主结论
+    g.fillStyle = '#22344e'; g.font = '700 76px system-ui,"PingFang SC",sans-serif';
+    g.fillText(money(t.totalLocal) + ' 元', 64, 340);
+    g.fillStyle = '#5a6d84'; g.font = '400 28px system-ui,"PingFang SC",sans-serif';
+    g.fillText('到岸总成本 · ' + t.totalQty + ' 件 · 单件 ' + money(t.unitCostLocal) + ' 元', 64, 388);
+    // 三个指标盒
+    var boxes = [
+      ['综合税负率', f2(m.burdenRate) + '%', '税费 ÷ 完税价格'],
+      ['含税放大倍数', f4(m.amplifier), '每 1 元完税价格的代价'],
+      ['税费合计', money(t.taxLocal), '关税＋消费税＋增值税']
+    ];
+    boxes.forEach(function (b, i) {
+      var x = 64 + i * 320;
+      g.fillStyle = '#f4f8fd'; g.fillRect(x, 424, 296, 148);
+      g.strokeStyle = '#d9e3ee'; g.strokeRect(x, 424, 296, 148);
+      g.fillStyle = '#61738a'; g.font = '600 22px system-ui,"PingFang SC",sans-serif';
+      g.fillText(b[0], x + 20, 466);
+      g.fillStyle = '#2d5f96'; g.font = '700 40px system-ui,"PingFang SC",sans-serif';
+      g.fillText(b[1], x + 20, 520);
+      g.fillStyle = '#7b8ca0'; g.font = '400 18px system-ui,"PingFang SC",sans-serif';
+      g.fillText(b[2], x + 20, 552);
+    });
+    // 成本构成条
+    g.fillStyle = '#22344e'; g.font = '700 30px system-ui,"PingFang SC",sans-serif';
+    g.fillText('成本构成', 64, 640);
+    var maxv = Math.max.apply(null, COST_KEYS.map(function (k) { return t[k[0]]; }));
+    var y = 682;
+    COST_KEYS.forEach(function (k) {
+      var v = t[k[0]];
+      var share = t.totalLocal > 0 ? v / t.totalLocal * 100 : 0;
+      g.fillStyle = '#39485c'; g.font = '600 24px system-ui,"PingFang SC",sans-serif';
+      g.fillText(k[1], 64, y + 22);
+      var bx = 264, bw = 480;
+      g.fillStyle = '#e8eef7'; g.fillRect(bx, y, bw, 26);
+      g.fillStyle = k[2] ? '#a23b28' : '#4a7cb5';
+      g.fillRect(bx, y, maxv > 0 ? bw * v / maxv : 0, 26);
+      g.fillStyle = '#39485c'; g.font = '600 22px system-ui,"PingFang SC",sans-serif';
+      g.textAlign = 'right';
+      g.fillText(money(v) + '（' + f2(share) + '%）', 1016, y + 21);
+      g.textAlign = 'left';
+      y += 46;
+    });
+    // 结论行
+    y += 16;
+    g.fillStyle = '#22344e'; g.font = '700 30px system-ui,"PingFang SC",sans-serif';
+    g.fillText('口径与反推', 64, y + 14);
+    y += 44;
+    var rowsOut = [];
+    rowsOut.push('三档税率直接相加会少算 ' + money(m.naiveUnderstateLocal) + ' 元（实际税费 ' + money(t.taxLocal) + ' 元）');
+    rowsOut.push('最低售价（毛利 ' + f2(r.margin) + '%）：' + money(r.pricing.minPriceLocal) + ' 元');
+    if (r.reverse) {
+      if (r.reverse.reason) rowsOut.push('反推：' + r.reverse.reason);
+      else rowsOut.push('目标售价 ' + money(r.reverse.targetPriceLocal) + ' 元 → 可承受货值上限 ' + money(r.reverse.maxGoodsForeign) + ' ' + r.currency + '（余量 ' + f2(r.reverse.headroomPct) + '%）');
+    }
+    if (r.maxDuty && r.maxDuty.available && !r.maxDuty.capped) rowsOut.push('可承受的统一关税率上限：' + f2(r.maxDuty.rate) + '%（当前最高 ' + f2(r.maxDuty.currentMaxDuty) + '%）');
+    g.font = '400 25px system-ui,"PingFang SC",sans-serif';
+    rowsOut.forEach(function (line) {
+      wrapText(g, '· ' + line, 950, 2).forEach(function (ln) {
+        g.fillStyle = '#4d6076';
+        g.fillText(ln, 64, y + 26);
+        y += 38;
+      });
+      y += 6;
+    });
+    // 页脚
+    g.fillStyle = '#eef3f8'; g.fillRect(0, 1240, 1080, 110);
+    g.fillStyle = '#7b8ca0'; g.font = '400 20px system-ui,"PingFang SC",sans-serif';
+    g.fillText('到岸成本台 V1.0.0 · 数字来自同一次计算 · 默认样例与内置场景均为虚构示例', 64, 1282);
+    g.fillText('税率由用户自填；本页不查税则、不联网，不给避税建议 · 生成于 ' + new Date().toLocaleString(), 64, 1316);
+    return cv;
+  }
+  function exportPNG(r) {
+    var cv = drawCard(r);
+    return new Promise(function (resolve) {
+      cv.toBlob(function (blob) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'landed-cost-card-1080x1350.png';
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); resolve(true); }, 1200);
+      }, 'image/png');
+    });
+  }
+
+  // ── 持久化 ──────────────────────────────────────────────────
+  function save() {
+    var input = readInput();
+    try {
+      var payload = { app: 'landed-cost', version: 1, savedAt: new Date().toISOString(), input: input };
+      localStorage.setItem(STORE, JSON.stringify(payload));
+      savedAt = payload.savedAt;
+      $('savedNote').textContent = '已保存到本机：' + new Date(payload.savedAt).toLocaleString() + '（只保存在这个浏览器里，不会上传）';
+      $('message').textContent = '已保存。';
+    } catch (e) {
+      $('message').textContent = '';
+      showError('保存失败：' + (e && e.message));
+    }
+  }
+  function restore(silent) {
+    var raw = null;
+    try { raw = localStorage.getItem(STORE); } catch (e) { raw = null; }
+    if (!raw) { if (!silent) $('message').textContent = '本机还没有保存过。'; return false; }
+    var payload;
+    try { payload = JSON.parse(raw); } catch (e) { showError('本机保存的数据解析失败。'); return false; }
+    if (!payload || !payload.input) { showError('本机保存的数据里没有输入。'); return false; }
+    writeInput(payload.input);
+    renderInputs();
+    savedAt = payload.savedAt;
+    $('savedNote').textContent = '已恢复本机保存：' + new Date(payload.savedAt).toLocaleString();
+    recompute(true);
+    return true;
+  }
+
+  // ── 事件 ────────────────────────────────────────────────────
+  function bind() {
+    $('inputPanel').addEventListener('input', function () { recompute(); });
+    $('inputPanel').addEventListener('change', function () {
+      state.insuranceMode = $('insuranceMode').value;
+      renderFields();
+      recompute();
+    });
+    $('inputPanel').addEventListener('click', function (ev) {
+      var target = ev.target;
+      if (target.classList.contains('del-row')) {
+        var i = Number(target.getAttribute('data-arg'));
+        if (state.rows.length <= 1) { $('message').textContent = '至少要留一行货物。'; return; }
+        state.rows.splice(i, 1);
+        renderRows(); recompute();
+        return;
+      }
+      if (target.classList.contains('del-fee')) {
+        var j = Number(target.getAttribute('data-arg'));
+        state.otherFees.splice(j, 1);
+        renderFees(); recompute();
+        return;
+      }
+    });
+    $('addRow').addEventListener('click', function () {
+      if (state.rows.length >= C.LIMITS.MAX_ROWS) { $('message').textContent = '最多 ' + C.LIMITS.MAX_ROWS + ' 行货物。'; return; }
+      var input = readInput();
+      writeInput(input);
+      state.rows.push(C.blankRow());
+      renderRows(); recompute();
+      $('message').textContent = '已添加一行，请填名称、数量、单价与三档税率。';
+    });
+    $('addFee').addEventListener('click', function () {
+      if (state.otherFees.length >= C.LIMITS.MAX_FEE) { $('message').textContent = '其他费用最多 ' + C.LIMITS.MAX_FEE + ' 项。'; return; }
+      var input = readInput();
+      writeInput(input);
+      state.otherFees.push({ name: '', amount: '' });
+      renderFees(); recompute();
+    });
+    $('demo').addEventListener('click', function () {
+      writeInput(C.clonePreset('appliance'));
+      renderInputs(); recompute();
+      $('message').textContent = '已载入虚构示例（不是真实税则或真实报价）。';
+    });
+    $('presets').addEventListener('click', function (ev) {
+      var k = ev.target.getAttribute && ev.target.getAttribute('data-key');
+      if (!k) return;
+      writeInput(C.clonePreset(k));
+      renderInputs(); recompute();
+      $('message').textContent = '已载入内置场景：' + (C.PRESETS.filter(function (p) { return p.key === k; })[0] || {}).label;
+    });
+    $('result').addEventListener('click', function (ev) {
+      var act = ev.target.getAttribute && ev.target.getAttribute('data-act');
+      if (!act || !lastResult) return;
+      var input = readInput();
+      if (act === 'scale-goods') {
+        var r = lastResult;
+        if (!r.reverse || r.reverse.reason || !isFinite(r.reverse.scale) || r.reverse.scale <= 0) { $('message').textContent = '这个场景不支持按上限缩放货值。'; return; }
+        state = JSON.parse(JSON.stringify(state));
+        state.rows = input.rows.map(function (x) {
+          return { name: x.name, qty: x.qty, unitPrice: x.unitPrice === '' ? '' : String(Number(x.unitPrice) * r.reverse.scale), dutyRate: x.dutyRate, exciseRate: x.exciseRate, vatRate: x.vatRate };
+        });
+        renderInputs(); recompute();
+        $('message').textContent = '已把各行单价按上限等比缩放 ×' + f4(r.reverse.scale) + '（货值结构调整过，请复核）。';
+        return;
+      }
+      if (act === 'set-duty') {
+        var r2 = lastResult;
+        state = JSON.parse(JSON.stringify(state));
+        state.rows = input.rows.map(function (x) {
+          return { name: x.name, qty: x.qty, unitPrice: x.unitPrice, dutyRate: f4(r2.maxDuty.rate), exciseRate: x.exciseRate, vatRate: x.vatRate };
+        });
+        renderInputs(); recompute();
+        $('message').textContent = '已把各行关税率改成 ' + f4(r2.maxDuty.rate) + '% 并重算。';
+        return;
+      }
+    });
+    $('save').addEventListener('click', save);
+    $('restore').addEventListener('click', function () { restore(false); });
+    $('backup').addEventListener('click', function () {
+      var payload = { app: 'landed-cost', version: 1, savedAt: new Date().toISOString(), input: readInput() };
+      download('landed-cost-backup.json', JSON.stringify(payload, null, 2), 'application/json');
+      $('message').textContent = '已下载备份 JSON。';
+    });
+    $('import').addEventListener('click', function () { $('imports').click(); });
+    $('imports').addEventListener('change', function (ev) {
+      var file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          var payload = JSON.parse(String(reader.result));
+          if (!payload || !payload.input) throw new Error('文件里没有 input 字段');
+          writeInput(payload.input);
+          renderInputs(); recompute();
+          $('message').textContent = '已从备份导入。';
+        } catch (e) {
+          showError('导入失败：' + (e && e.message));
+        }
+        ev.target.value = '';
+      };
+      reader.readAsText(file);
+    });
+    $('csv').addEventListener('click', function () { if (lastResult) { download('landed-cost-detail.csv', csvText(lastResult), 'text/csv;charset=utf-8'); $('message').textContent = '已下载 CSV 明细。'; } });
+    $('md').addEventListener('click', function () { if (lastResult) { download('landed-cost-result.md', mdText(lastResult), 'text/markdown;charset=utf-8'); $('message').textContent = '已下载结果说明 MD。'; } });
+    $('json').addEventListener('click', function () { if (lastResult) { download('landed-cost-backup.json', JSON.stringify({ app: 'landed-cost', version: 1, savedAt: new Date().toISOString(), input: readInput() }, null, 2), 'application/json'); $('message').textContent = '已下载 JSON 备份。'; } });
+    $('png').addEventListener('click', function () { if (lastResult) { exportPNG(lastResult).then(function () { $('message').textContent = '已下载结果卡 PNG（1080×1350）。'; }); } });
+  }
+
+  function renderPresets() {
+    $('presets').innerHTML = C.PRESETS.map(function (p) {
+      return '<button type="button" data-key="' + p.key + '" title="' + esc(p.note) + '">' + esc(p.label) + '</button>';
+    }).join('');
+  }
+
+  function init() {
+    renderPresets();
+    var restored = restore(true);
+    if (!restored) { renderInputs(); recompute(true); }
+    window.__App = { readInput: readInput, render: function () { renderInputs(); return recompute(); }, state: function () { return state; } };
+  }
+
+  bind();
+  init();
+})();
+</script></html>
